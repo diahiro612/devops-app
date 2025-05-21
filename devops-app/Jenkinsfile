@@ -1,0 +1,25 @@
+pipeline {
+  agent any
+  stages {
+    stage('Build') {
+      steps {
+        sh 'npm install'
+      }
+    }
+    stage('Test') {
+      steps {
+        sh 'echo "Tes dummy: lulus!"'
+      }
+    }
+    stage('Build Docker Image') {
+      steps {
+        sh 'docker build -t devops-app .'
+      }
+    }
+    stage('Deploy to Staging') {
+      steps {
+        sh 'scp -i key.pem build/* user@server:/var/www/html'
+      }
+    }
+  }
+}
